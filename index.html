@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femine - Your Personality is Character</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom CSS for specific colors and styles not easily covered by Tailwind defaults */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcf8f5; /* Light background color matching the image */
+        }
+        .text-primary-pink {
+            color: #e9a3b6; /* A custom pink color based on the image's branding */
+        }
+        .bg-primary-pink {
+            background-color: #e9a3b6;
+        }
+        .bg-light-pink {
+            background-color: #fef0f4; /* Lighter pink for hero and other sections */
+        }
+        .btn-primary {
+            background-color: #e9a3b6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px; /* Fully rounded for pill shape */
+            font-weight: 500;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+        }
+        .btn-primary:hover {
+            background-color: #d88fa3; /* Darker pink on hover */
+        }
+        .shadow-custom {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Default Tailwind shadow for cards/sections */
+        }
+        .progress-bar-container {
+            background-color: #f0e6e9; /* Light greyish pink for the track */
+            border-radius: 9999px; /* Fully rounded track */
+            height: 8px; /* Height of the progress bar */
+            overflow: hidden; /* Ensures the progress bar stays within bounds */
+        }
+        .progress-bar {
+            background-color: #e9a3b6; /* Primary pink for the progress fill */
+            height: 100%;
+            border-radius: 9999px; /* Fully rounded fill */
+        }
+        /* Custom shapes for hero section */
+        .hero-section-bg {
+            border-bottom-left-radius: 100px;
+            border-top-right-radius: 100px;
+        }
+
+        /* Styles for mobile menu overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 40; /* Above regular content, below mobile menu */
+            display: none; /* Hidden by default */
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -300px; /* Hidden off-screen initially */
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 50;
+            transition: right 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .mobile-menu.active {
+            right: 0; /* Slide in */
+        }
+
+        /* Back to top button */
+        #backToTopBtn {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 30px; /* Place the button at the bottom of the page */
+            right: 30px; /* Place the button 30px from the right */
+            z-index: 99; /* Make sure it does not overlap */
+            border: none; /* Remove borders */
+            outline: none; /* Remove outline */
+            background-color: #e9a3b6; /* Set a background color */
+            color: white; /* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding: 15px; /* Some padding */
+            border-radius: 50%; /* Rounded corners */
+            font-size: 18px; /* Increase font size */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #d88fa3; /* Darker pink on hover */
+            transform: translateY(-2px); /* Slight lift */
+        }
+
+        /* Gallery Image Hover Effect */
+        .gallery-image {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-radius: 0.75rem; /* Tailwind's rounded-xl */
+            overflow: hidden; /* Ensures image corners are rounded */
+        }
+        .gallery-image img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery-image:hover {
+            transform: translateY(-5px); /* Slight lift */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* More pronounced shadow */
+        }
+        .gallery-image:hover img {
+            transform: scale(1.05); /* Slight zoom */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white py-4 shadow-sm">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="#hero-section" class="text-primary-pink text-2xl font-bold">
+                    <i class="fas fa-venus text-xl"></i> Femine
+                </a>
+            </div>
+
+            <nav class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                <a href="#hero-section" class="hover:text-pink-200 transition-colors duration-300">Home</a>
+                <a href="#about-us-section" class="hover:text-pink-200 transition-colors duration-300">About Us</a>
+                <a href="#services-section" class="hover:text-pink-200 transition-colors duration-300">Services</a>
+                <a href="#gallery-section" class="hover:text-pink-200 transition-colors duration-300">Gallery</a>
+                <div class="relative group">
+                    <a href="#" class="hover:text-pink-200 transition-colors duration-300 flex items-center">
+                        Pages <i class="fas fa-chevron-down text-xs ml-1"></i>
+                    </a>
+                    <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 w-32 py-2 z-20">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Page 1</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Page 2</a>
+                    </div>
+                </div>
+                <a href="#contact-us-section" class="hover:text-pink-200 transition-colors duration-300">Contact Us</a>
+            </nav>
+
+            <div class="hidden md:flex items-center space-x-4 text-gray-600">
+                <i class="fas fa-search text-lg cursor-pointer hover:text-pink-200 transition-colors duration-300"></i>
+                <div class="w-8 h-8 bg-pink-300 rounded-full flex items-center justify-center text-white font-bold text-sm">M</div>
+            </div>
+
+            <div class="md:hidden">
+                <button id="mobileMenuBtn" class="text-gray-600 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
+    <div id="mobileMenu" class="mobile-menu">
+        <button id="closeMenuBtn" class="self-end text-gray-600 text-2xl mb-6">
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="flex flex-col space-y-6 text-gray-800 font-medium text-lg">
+            <a href="#hero-section" class="hover:text-primary-pink" data-close-menu>Home</a>
+            <a href="#about-us-section" class="hover:text-primary-pink" data-close-menu>About Us</a>
+            <a href="#services-section" class="hover:text-primary-pink" data-close-menu>Services</a>
+            <a href="#gallery-section" class="hover:text-primary-pink" data-close-menu>Gallery</a>
+            <a href="#" class="hover:text-primary-pink">Pages</a> <a href="#contact-us-section" class="hover:text-primary-pink" data-close-menu>Contact Us</a>
+        </nav>
+        <div class="mt-8 flex items-center space-x-4 text-gray-600">
+            <i class="fas fa-search text-lg"></i>
+            <div class="w-8 h-8 bg-primary-pink rounded-full flex items-center justify-center text-white font-bold text-sm">M</div>
+        </div>
+    </div>
+
+
+    <section id="hero-section" class="bg-light-pink py-16 md:py-24 relative overflow-hidden hero-section-bg mt-8 mx-auto max-w-7xl">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 text-center md:text-left mb-12 md:mb-0 relative z-10">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-pink-600 leading-tight mb-4">
+                    Your Personality is <br class="hidden md:block"> What Makes You <br class="hidden md:block"> Character
+                </h1>
+                <br>
+                <p class="text-gray-600 text-lg mb-8 max-w-md mx-auto md:mx-0">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <button class="btn-primary">Learn More</button>
+                    <button id="generateInsightBtn" class="btn-primary flex items-center justify-center">
+                        Generate Personality Insight ✨
+                    </button>
+                </div>
+                <div id="personalityInsightOutput" class="mt-8 p-4 bg-white rounded-lg shadow-md text-gray-700 text-base hidden">
+                    </div>
+            </div>
+
+            <div class="md:w-1/2 relative flex justify-center md:justify-end">
+                <img src="images/pink1.jpg" onerror="this.onerror=null;this.src='https://placehold.co/400x500/e9a3b6/ffffff?text=Woman+with+plant';" alt="Woman smiling" class="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-xl shadow-lg relative z-10">
+                <div class="absolute -top-10 -left-10 w-24 h-24 bg-primary-pink rounded-full opacity-20 hidden md:block"></div>
+                <div class="absolute bottom-0 right-0 w-16 h-16 bg-primary-pink rounded-full opacity-30 hidden md:block"></div>
+                <div class="absolute top-20 right-10 w-8 h-8 bg-primary-pink rounded-full opacity-40 hidden md:block"></div>
+                <i class="fas fa-star text-primary-pink text-4xl absolute top-5 left-5 -rotate-12 opacity-70 hidden md:block"></i>
+                <i class="fas fa-star text-primary-pink text-2xl absolute bottom-10 left-10 rotate-45 opacity-50 hidden md:block"></i>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-us-section" class="py-16 md:py-24 bg-white mx-auto max-w-7xl mt-16 rounded-3xl shadow-lg">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 relative flex justify-center md:justify-start mb-12 md:mb-0">
+                <img src="images/pink2.jpg" onerror="this.onerror=null;this.src='https://placehold.co/400x400/fef0f4/e9a3b6?text=Woman+kissing+air';" alt="Woman kissing air" class="w-full max-w-sm md:max-w-md h-auto rounded-xl shadow-lg">
+                <div class="absolute -bottom-5 -right-5 w-20 h-20 bg-primary-pink rounded-full opacity-20"></div>
+                <div class="absolute -top-5 -left-5 w-12 h-12 bg-primary-pink rounded-full opacity-30"></div>
+            </div>
+
+            <div class="md:w-1/2 text-center md:text-left">
+                <h2 class="text-4xl font-bold text-gray-800 mb-6">Welcome To Femine</h2>
+                <p class="text-gray-600 text-lg mb-8">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-6">
+                    <div class="bg-light-pink p-6 rounded-lg text-center shadow-sm w-full sm:w-auto flex-grow">
+                        <p class="text-primary-pink text-4xl font-bold">32</p>
+                        <p class="text-gray-600 text-sm">Experience</p>
+                    </div>
+                    <div class="bg-light-pink p-6 rounded-lg text-center shadow-sm w-full sm:w-auto flex-grow">
+                        <p class="text-primary-pink text-4xl font-bold">82</p>
+                        <p class="text-gray-600 text-sm">Motivated</p>
+                    </div>
+                    <div class="bg-light-pink p-6 rounded-lg text-center shadow-sm w-full sm:w-auto flex-grow">
+                        <p class="text-primary-pink text-4xl font-bold">28</p>
+                        <p class="text-gray-600 text-sm">Certificates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section id="services-section" class="py-16 md:py-24 bg-fcf8f5 mx-auto max-w-7xl">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold text-gray-800 mb-6">We Can Help Transform You</h2>
+        <button id="generateTransformationTipBtn" class="btn-primary mb-8 flex items-center justify-center mx-auto">
+            Get a Transformation Tip ✨
+        </button>
+        <div id="transformationTipOutput" class="mt-4 p-4 bg-white rounded-lg shadow-md text-gray-700 text-base hidden mb-8">
+            </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:bg-pink-300 hover:text-white">
+                <div class="bg-primary-pink rounded-full p-4 mb-4"> <div class="bg-white bg-opacity-30 rounded-full p-2 flex items-center justify-center"> <i class="fas fa-lightbulb text-white text-3xl"></i> </div>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Problem Solving</h3>
+                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <a href="#" class="text-primary-pink font-medium flex items-center">
+                    Learn More <i class="fas fa-arrow-right text-sm ml-2"></i>
+                </a>
+            </div>
+
+            <div class="bg-primary-pink p-8 rounded-xl shadow-lg flex flex-col items-center text-center text-white hover:bg-white hover:text-black">
+                <div class="bg-white bg-opacity-30 rounded-full p-4 mb-4">
+                    <i class="fas fa-heart text-white text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Relationships</h3>
+                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <a href="#" class="font-medium flex items-center text-white">
+                    Learn More <i class="fas fa-arrow-right text-sm ml-2"></i>
+                </a>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:bg-pink-300">
+                <div class="bg-primary-pink rounded-full p-4 mb-4"> <div class="bg-white bg-opacity-30 rounded-full p-2 flex items-center justify-center"> <i class="fas fa-fire text-white text-3xl"></i> </div>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Identifying Passion</h3>
+                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <a href="#" class="text-primary-pink font-medium flex items-center">
+                    Learn More <i class="fas fa-arrow-right text-sm ml-2"></i>
+                </a>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center hover:bg-pink-300">
+                <div class="bg-primary-pink rounded-full p-4 mb-4"> <div class="bg-white bg-opacity-30 rounded-full p-2 flex items-center justify-center"> <i class="fas fa-chart-line text-white text-3xl"></i> </div>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Growth Career</h3>
+                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <a href="#" class="text-primary-pink font-medium flex items-center">
+                    Learn More <i class="fas fa-arrow-right text-sm ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="gallery-section" class="py-16 md:py-24 bg-light-pink mx-auto max-w-7xl mt-16 rounded-3xl shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-12">Our Journey, Your Inspiration</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink3.jpg"
+                         alt="Woman meditating in nature" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink4.jpg"
+                         alt="Smiling woman looking confident" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink5.jpg"
+                         alt="Woman with vibrant floral background" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink6.jpg"
+                         alt="Woman in a peaceful moment" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink7.jpg"
+                         alt="Woman enjoying sunlight" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink8.jpg"
+                         alt="Abstract art with pink tones" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink9.jpg"
+                         alt="Woman with flowers in her hair" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink10.jpg"
+                         alt="Positive abstract background" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink11.jpg"
+                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink12.jpg"
+                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink13.jpg"
+                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+                <div class="gallery-image shadow-md">
+                    <img src="images/pink14.jpg"
+                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div id="imageModalOverlay" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="relative max-w-5xl max-h-screen p-4">
+        <button id="closeImageModalBtn" class="absolute -top-4 -right-4 bg-primary-pink text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors duration-300 hover:bg-d88fa3">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="modalImage" src="" alt="Full size image" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-xl">
+    </div>
+</div>
+    <section id="contact-us-section" class="py-16 md:py-24 bg-white mx-auto max-w-7xl mt-16 rounded-3xl shadow-lg mb-16">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 text-center md:text-left mb-12 md:mb-0">
+                <h2 class="text-4xl font-bold text-gray-800 mb-6">Proving Our Expertise</h2>
+                <p class="text-gray-600 text-lg mb-8">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+                </p>
+                <div class="space-y-6 mb-8">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-700 font-medium">Anaudita Akpoong</span>
+                            <span class="text-gray-700 font-medium">90%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-700 font-medium">Hong T</span>
+                            <span class="text-gray-700 font-medium">75%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-700 font-medium">Another Skill</span>
+                            <span class="text-gray-700 font-medium">85%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-primary">Learn More</button>
+            </div>
+
+            <div class="md:w-1/2 relative flex justify-center md:justify-end">
+                <img src="images/pink15.jpg" onerror="this.onerror=null;this.src='https://placehold.co/400x500/fef0f4/e9a3b6?text=Woman+writing+in+book';" alt="Woman writing in a book" class="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-xl shadow-lg">
+                <div class="absolute -top-10 -right-10 w-24 h-24 bg-primary-pink rounded-full opacity-20 hidden md:block"></div>
+                <div class="absolute bottom-0 left-0 w-16 h-16 bg-primary-pink rounded-full opacity-30 hidden md:block"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-pink-100 text-white py-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4 text-primary-pink">Femine</h3>
+                <p class="text-gray-400 text-sm">
+                    Empowering women to discover their unique personality and unlock their full character potential. We believe in growth, strength, and inner beauty.
+                </p>
+                <div class="flex space-x-4 mt-6">
+                    <a href="#" class="text-gray-400 hover:text-primary-pink transition-colors duration-300"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary-pink transition-colors duration-300"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary-pink transition-colors duration-300"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary-pink transition-colors duration-300"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#hero-section" class="text-gray-400 hover:text-white transition-colors duration-300">Home</a></li>
+                    <li><a href="#about-us-section" class="text-gray-400 hover:text-white transition-colors duration-300">About Us</a></li>
+                    <li><a href="#services-section" class="text-gray-400 hover:text-white transition-colors duration-300">Services</a></li>
+                    <li><a href="#gallery-section" class="text-gray-400 hover:text-white transition-colors duration-300">Gallery</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Blog</a></li>
+                    <li><a href="#contact-us-section" class="text-gray-400 hover:text-white transition-colors duration-300">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Our Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Problem Solving</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Relationship Coaching</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Passion Discovery</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Career Growth</a></li>
+                </ul>
+            </div>
+            
+
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                <ul class="space-y-3 text-gray-400 text-sm">
+                    <li class="flex items-center"><i class="fas fa-map-marker-alt mr-3 text-primary-pink"></i> 123 Personality Ave, Character City</li>
+                    <li class="flex items-center"><i class="fas fa-phone mr-3 text-primary-pink"></i> +1 (234) 567-890</li>
+                    <li class="flex items-center"><i class="fas fa-envelope mr-3 text-primary-pink"></i> info@femine.com</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm mt-12 border-t border-gray-700 pt-8">
+            &copy; 2025 Femine. All Rights Reserved.
+        </div>
+    </footer>
+
+    <button id="backToTopBtn" title="Go to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+
+    <script>
+        // JavaScript for Gemini API integration and new features
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to the elements for the Personality Insight feature
+            const generateInsightBtn = document.getElementById('generateInsightBtn');
+            const personalityInsightOutput = document.getElementById('personalityInsightOutput');
+
+            // Get references to the elements for the Transformation Tip feature
+            const generateTransformationTipBtn = document.getElementById('generateTransformationTipBtn');
+            const transformationTipOutput = document.getElementById('transformationTipOutput');
+
+            // Get references for Mobile Menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+            // Get references for Back to Top button
+            const backToTopBtn = document.getElementById('backToTopBtn');
+
+            /**
+             * Calls the Gemini API to generate text based on a given prompt.
+             * @param {string} prompt The prompt to send to the LLM.
+             * @returns {Promise<string>} A promise that resolves with the generated text.
+             */
+            async function generateTextWithGemini(prompt) {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyDFImmeH6gV6zgPmjCiheW6HKSNHeFmhyQ"; // Your API key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error('Unexpected API response structure:', result);
+                        return 'Failed to generate insight. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    return 'An error occurred while generating insight.';
+                }
+            }
+
+            // Event listener for the "Generate Personality Insight" button
+            if (generateInsightBtn) {
+                generateInsightBtn.addEventListener('click', async () => {
+                    personalityInsightOutput.classList.remove('hidden'); // Show the output div
+                    personalityInsightOutput.innerHTML = '<p class="text-center">Generating insight...</p>'; // Show loading message
+
+                    const basePrompt = "Generate a short, positive personality insight or a character-building tip. Keep it concise, around 2-3 sentences. Focus on themes of self-improvement, inner strength, and growth.";
+                    // Add a random factor to the prompt to encourage varied responses
+                    const randomPrompt = basePrompt + " Provide a fresh and unique perspective. (Random seed: " + Math.random() + ")";
+                    const insight = await generateTextWithGemini(randomPrompt);
+                    personalityInsightOutput.innerHTML = `<p>${insight}</p>`; // Display the generated insight
+                });
+            }
+
+            // Event listener for the "Get a Transformation Tip" button
+            if (generateTransformationTipBtn) {
+                generateTransformationTipBtn.addEventListener('click', async () => {
+                    transformationTipOutput.classList.remove('hidden'); // Show the output div
+                    transformationTipOutput.innerHTML = '<p class="text-center">Generating tip...</p>'; // Show loading message
+
+                    const basePrompt = "Provide a concise, actionable tip for personal transformation, focusing on areas like 'Problem Solving', 'Relationships', 'Identifying Passion', or 'Growth Career'. Keep it to 1-2 sentences. Make it inspiring and practical.";
+                    // Add a random factor to the prompt to encourage varied responses
+                    const randomPrompt = basePrompt + " Offer a different actionable tip. (Timestamp: " + Date.now() + ")";
+                    const tip = await generateTextWithGemini(randomPrompt);
+                    transformationTipOutput.innerHTML = `<p>${tip}</p>`; // Display the generated tip
+                });
+            }
+
+            // --- Mobile Menu Toggle Logic ---
+            if (mobileMenuBtn && mobileMenu && closeMenuBtn && mobileMenuOverlay) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.add('active');
+                    mobileMenuOverlay.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling body when menu is open
+                });
+
+                const closeMobileMenu = () => {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuOverlay.style.display = 'none';
+                    document.body.style.overflow = ''; // Restore body scrolling
+                };
+
+                closeMenuBtn.addEventListener('click', closeMobileMenu);
+                mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+                // Close mobile menu when a navigation link is clicked
+                document.querySelectorAll('#mobileMenu nav a').forEach(link => {
+                    link.addEventListener('click', closeMobileMenu);
+                });
+            }
+
+            // --- Back to Top Button Logic ---
+            if (backToTopBtn) {
+                // When the user scrolls down 200px from the top of the document, show the button
+                window.onscroll = function() {
+                    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                        backToTopBtn.style.display = "block";
+                    } else {
+                        backToTopBtn.style.display = "none";
+                    }
+                };
+
+                // When the user clicks on the button, scroll to the top of the document
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // For smooth scrolling
+                    });
+                });
+            }
+
+            // --- Smooth scrolling for main navigation links (desktop and mobile) ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                if (anchor.getAttribute('href').length > 1) { // Exclude just "#"
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                }
+            });
+
+        });
+        // JavaScript for the Full Image Modal
+        const imageModalOverlay = document.getElementById('imageModalOverlay');
+        const modalImage = document.getElementById('modalImage');
+        const closeImageModalBtn = document.getElementById('closeImageModalBtn');
+        const galleryImages = document.querySelectorAll('.gallery-image[data-image-target]'); // Select containers with the data-image-target attribute
+
+        // Function to open the modal
+        function openImageModal(imageSrc, imageAlt) {
+            modalImage.src = imageSrc;
+            modalImage.alt = imageAlt;
+            imageModalOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling the background
+        }
+
+        // Function to close the modal
+        function closeImageModal() {
+            imageModalOverlay.classList.add('hidden');
+            modalImage.src = ''; // Clear the image source
+            document.body.style.overflow = ''; // Restore body scrolling
+        }
+
+        // Add click listeners to each gallery image
+        galleryImages.forEach(imageDiv => {
+            imageDiv.addEventListener('click', () => {
+                const imgElement = imageDiv.querySelector('img');
+                if (imgElement) {
+                    const fullSrc = imgElement.getAttribute('data-fullsrc') || imgElement.src; // Use data-fullsrc if available, otherwise src
+                    const altText = imgElement.alt;
+                    openImageModal(fullSrc, altText);
+                }
+            });
+        });
+
+        // Add click listener to the close button
+        if (closeImageModalBtn) {
+            closeImageModalBtn.addEventListener('click', closeImageModal);
+        }
+
+        // Close modal if user clicks outside the image (on the overlay)
+        if (imageModalOverlay) {
+            imageModalOverlay.addEventListener('click', (e) => {
+                if (e.target === imageModalOverlay) { // Only close if clicking the overlay itself, not the image or button
+                    closeImageModal();
+                }
+            });
+        }
+
+        // Close modal if user presses the Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !imageModalOverlay.classList.contains('hidden')) {
+                closeImageModal();
+            }
+        });
+    </script>
+</body>
+</html>
