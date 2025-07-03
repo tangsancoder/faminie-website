@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth"> <head>
+<html lang="en" class="scroll-smooth">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Femine - Your Personality is Character</title>
@@ -114,6 +115,7 @@
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             border-radius: 0.75rem; /* Tailwind's rounded-xl */
             overflow: hidden; /* Ensures image corners are rounded */
+            cursor: pointer; /* Indicate clickability */
         }
         .gallery-image img {
             transition: transform 0.3s ease-in-out;
@@ -124,6 +126,76 @@
         }
         .gallery-image:hover img {
             transform: scale(1.05); /* Slight zoom */
+        }
+
+        /* Image Modal Styles */
+        #imageModalOverlay {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0; /* Start hidden */
+            pointer-events: none; /* Allow clicks through when hidden */
+        }
+
+        #imageModalOverlay.active {
+            opacity: 1;
+            pointer-events: auto; /* Enable clicks when active */
+        }
+
+        #closeImageModalBtn {
+            /* Position relative to the parent modal content for consistent placement */
+            top: -15px; /* Adjust as needed */
+            right: -15px; /* Adjust as needed */
+            position: absolute;
+        }
+
+        #downloadImageBtn {
+            position: absolute;
+            top: -15px; /* Align with close button */
+            right: 35px; /* Position to the left of close button */
+            background-color: #e9a3b6;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #downloadImageBtn:hover {
+            background-color: #d88fa3;
+            transform: translateY(-2px);
+        }
+
+        /* Search Modal Styles */
+        #searchModalOverlay {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0; /* Start hidden */
+            pointer-events: none; /* Allow clicks through when hidden */
+        }
+
+        #searchModalOverlay.active {
+            opacity: 1;
+            pointer-events: auto; /* Enable clicks when active */
+        }
+
+
+        ::-webkit-scrollbar{
+            width: 20px;
+        }
+        ::-webkit-scrollbar-track{
+            background-color: #d88fa3;
+        }
+        ::-webkit-scrollbar-thumb{
+            background-color: #f0e6e9;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover{
+            background-color: #e9a3b6
         }
     </style>
 </head>
@@ -155,7 +227,10 @@
             </nav>
 
             <div class="hidden md:flex items-center space-x-4 text-gray-600">
-                <i class="fas fa-search text-lg cursor-pointer hover:text-pink-200 transition-colors duration-300"></i>
+                <!-- Changed search icon to a button to make it clickable -->
+                <button id="headerSearchBtn" class="text-gray-600 focus:outline-none text-lg cursor-pointer hover:text-pink-200 transition-colors duration-300">
+                    <i class="fas fa-search"></i>
+                </button>
                 <div class="w-8 h-8 bg-pink-300 rounded-full flex items-center justify-center text-white font-bold text-sm">M</div>
             </div>
 
@@ -308,65 +383,86 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="gallery-image shadow-md">
                     <img src="images/pink3.jpg"
-                         alt="Woman meditating in nature" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman meditating in nature" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink4.jpg"
-                         alt="Smiling woman looking confident" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Smiling woman looking confident" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink5.jpg"
-                         alt="Woman with vibrant floral background" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman with vibrant floral background" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink6.jpg"
-                         alt="Woman in a peaceful moment" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman in a peaceful moment" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink7.jpg"
-                         alt="Woman enjoying sunlight" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman enjoying sunlight" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink8.jpg"
-                         alt="Abstract art with pink tones" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Abstract art with pink tones" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink9.jpg"
-                         alt="Woman with flowers in her hair" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman with flowers in her hair" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink10.jpg"
-                         alt="Positive abstract background" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Positive abstract background" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink11.jpg"
-                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink12.jpg"
-                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink13.jpg"
-                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
                 <div class="gallery-image shadow-md">
                     <img src="images/pink14.jpg"
-                         alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
+                        alt="Woman with bright expression" class="w-full h-64 object-cover object-center rounded-xl">
                 </div>
             </div>
         </div>
     </section>
 
-
+    <!-- Image Modal Overlay -->
     <div id="imageModalOverlay" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-    <div class="relative max-w-5xl max-h-screen p-4">
-        <button id="closeImageModalBtn" class="absolute -top-4 -right-4 bg-primary-pink text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors duration-300 hover:bg-d88fa3">
-            <i class="fas fa-times"></i>
-        </button>
-        <img id="modalImage" src="" alt="Full size image" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-xl">
+        <div class="relative max-w-5xl max-h-screen p-4">
+            <!-- Download Button -->
+            <button id="downloadImageBtn" class="bg-primary-pink text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors duration-300 hover:bg-d88fa3">
+                <i class="fas fa-download"></i>
+            </button>
+            <button id="closeImageModalBtn" class="absolute -top-4 -right-4 bg-primary-pink text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors duration-300 hover:bg-d88fa3">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImage" src="" alt="Full size image" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-xl">
+        </div>
     </div>
-</div>
+
+    <!-- Search Modal Overlay -->
+    <div id="searchModalOverlay" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl relative w-11/12 max-w-md">
+            <button id="closeSearchModalBtn" class="absolute -top-4 -right-4 bg-primary-pink text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors duration-300 hover:bg-d88fa3">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Search Pinterest</h3>
+            <div class="flex items-center border-2 border-primary-pink rounded-full overflow-hidden px-4 py-2">
+                <input type="text" id="pinterestSearchInput" class="flex-grow outline-none text-gray-700 placeholder-gray-400" placeholder="Search for ideas...">
+                <button id="pinterestSearchBtn" class="bg-primary-pink text-white rounded-full w-10 h-10 flex items-center justify-center text-xl ml-2 transition-colors duration-300 hover:bg-d88fa3">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <section id="contact-us-section" class="py-16 md:py-24 bg-white mx-auto max-w-7xl mt-16 rounded-3xl shadow-lg mb-16">
         <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
             <div class="md:w-1/2 text-center md:text-left mb-12 md:mb-0">
@@ -492,6 +588,20 @@
             // Get references for Back to Top button
             const backToTopBtn = document.getElementById('backToTopBtn');
 
+            // Image Modal elements
+            const imageModalOverlay = document.getElementById('imageModalOverlay');
+            const modalImage = document.getElementById('modalImage');
+            const closeImageModalBtn = document.getElementById('closeImageModalBtn');
+            const downloadImageBtn = document.getElementById('downloadImageBtn');
+            const galleryImages = document.querySelectorAll('.gallery-image img');
+
+            // Search Modal elements
+            const headerSearchBtn = document.getElementById('headerSearchBtn'); // New: Header search button
+            const searchModalOverlay = document.getElementById('searchModalOverlay');
+            const closeSearchModalBtn = document.getElementById('closeSearchModalBtn');
+            const pinterestSearchInput = document.getElementById('pinterestSearchInput');
+            const pinterestSearchBtn = document.getElementById('pinterestSearchBtn');
+
             /**
              * Calls the Gemini API to generate text based on a given prompt.
              * @param {string} prompt The prompt to send to the LLM.
@@ -534,139 +644,174 @@
 
                     const basePrompt = "Generate a short, positive personality insight or a character-building tip. Keep it concise, around 2-3 sentences. Focus on themes of self-improvement, inner strength, and growth.";
                     // Add a random factor to the prompt to encourage varied responses
-                    const randomPrompt = basePrompt + " Provide a fresh and unique perspective. (Random seed: " + Math.random() + ")";
+                    const randomPrompt = basePrompt + " Provide a fresh and unique perspective. (Random factor: " + Math.random() + ")";
+
                     const insight = await generateTextWithGemini(randomPrompt);
-                    personalityInsightOutput.innerHTML = `<p>${insight}</p>`; // Display the generated insight
+                    personalityInsightOutput.innerHTML = `<p>${insight}</p>`;
                 });
             }
 
-            // Event listener for the "Get a Transformation Tip" button
+            // Event listener for the "Generate Transformation Tip" button
             if (generateTransformationTipBtn) {
                 generateTransformationTipBtn.addEventListener('click', async () => {
                     transformationTipOutput.classList.remove('hidden'); // Show the output div
                     transformationTipOutput.innerHTML = '<p class="text-center">Generating tip...</p>'; // Show loading message
 
-                    const basePrompt = "Provide a concise, actionable tip for personal transformation, focusing on areas like 'Problem Solving', 'Relationships', 'Identifying Passion', or 'Growth Career'. Keep it to 1-2 sentences. Make it inspiring and practical.";
-                    // Add a random factor to the prompt to encourage varied responses
-                    const randomPrompt = basePrompt + " Offer a different actionable tip. (Timestamp: " + Date.now() + ")";
+                    const basePrompt = "Provide a concise transformation tip for personal growth, related to the Femine brand. Focus on empowerment, self-care, or achieving potential. Around 2-3 sentences.";
+                    const randomPrompt = basePrompt + " Offer a unique and actionable tip. (Random factor: " + Math.random() + ")";
+
                     const tip = await generateTextWithGemini(randomPrompt);
-                    transformationTipOutput.innerHTML = `<p>${tip}</p>`; // Display the generated tip
+                    transformationTipOutput.innerHTML = `<p>${tip}</p>`;
                 });
             }
 
-            // --- Mobile Menu Toggle Logic ---
-            if (mobileMenuBtn && mobileMenu && closeMenuBtn && mobileMenuOverlay) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.add('active');
-                    mobileMenuOverlay.style.display = 'block';
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling body when menu is open
-                });
+            // Mobile Menu functionality
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                mobileMenuOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
 
-                const closeMobileMenu = () => {
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuOverlay.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            mobileMenuOverlay.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuOverlay.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close mobile menu when a navigation link is clicked
+            document.querySelectorAll('#mobileMenu a[data-close-menu]').forEach(link => {
+                link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
                     mobileMenuOverlay.style.display = 'none';
-                    document.body.style.overflow = ''; // Restore body scrolling
-                };
-
-                closeMenuBtn.addEventListener('click', closeMobileMenu);
-                mobileMenuOverlay.addEventListener('click', closeMobileMenu);
-
-                // Close mobile menu when a navigation link is clicked
-                document.querySelectorAll('#mobileMenu nav a').forEach(link => {
-                    link.addEventListener('click', closeMobileMenu);
+                    document.body.style.overflow = '';
                 });
-            }
+            });
 
-            // --- Back to Top Button Logic ---
-            if (backToTopBtn) {
-                // When the user scrolls down 200px from the top of the document, show the button
-                window.onscroll = function() {
-                    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                        backToTopBtn.style.display = "block";
-                    } else {
-                        backToTopBtn.style.display = "none";
-                    }
-                };
 
-                // When the user clicks on the button, scroll to the top of the document
-                backToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth' // For smooth scrolling
-                    });
-                });
-            }
-
-            // --- Smooth scrolling for main navigation links (desktop and mobile) ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                if (anchor.getAttribute('href').length > 1) { // Exclude just "#"
-                    anchor.addEventListener('click', function (e) {
-                        e.preventDefault();
-
-                        const targetId = this.getAttribute('href').substring(1);
-                        const targetElement = document.getElementById(targetId);
-
-                        if (targetElement) {
-                            targetElement.scrollIntoView({
-                                behavior: 'smooth'
-                            });
-                        }
-                    });
+            // Back to Top button functionality
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) { // Show button after scrolling down 300px
+                    backToTopBtn.style.display = 'block';
+                } else {
+                    backToTopBtn.style.display = 'none';
                 }
             });
 
-        });
-        // JavaScript for the Full Image Modal
-        const imageModalOverlay = document.getElementById('imageModalOverlay');
-        const modalImage = document.getElementById('modalImage');
-        const closeImageModalBtn = document.getElementById('closeImageModalBtn');
-        const galleryImages = document.querySelectorAll('.gallery-image[data-image-target]'); // Select containers with the data-image-target attribute
-
-        // Function to open the modal
-        function openImageModal(imageSrc, imageAlt) {
-            modalImage.src = imageSrc;
-            modalImage.alt = imageAlt;
-            imageModalOverlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling the background
-        }
-
-        // Function to close the modal
-        function closeImageModal() {
-            imageModalOverlay.classList.add('hidden');
-            modalImage.src = ''; // Clear the image source
-            document.body.style.overflow = ''; // Restore body scrolling
-        }
-
-        // Add click listeners to each gallery image
-        galleryImages.forEach(imageDiv => {
-            imageDiv.addEventListener('click', () => {
-                const imgElement = imageDiv.querySelector('img');
-                if (imgElement) {
-                    const fullSrc = imgElement.getAttribute('data-fullsrc') || imgElement.src; // Use data-fullsrc if available, otherwise src
-                    const altText = imgElement.alt;
-                    openImageModal(fullSrc, altText);
-                }
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // Smooth scroll to top
+                });
             });
-        });
 
-        // Add click listener to the close button
-        if (closeImageModalBtn) {
-            closeImageModalBtn.addEventListener('click', closeImageModal);
-        }
+            // Image Modal functionality
+            galleryImages.forEach(image => {
+                image.addEventListener('click', () => {
+                    modalImage.src = image.src;
+                    imageModalOverlay.classList.add('active'); // Add active class for transition
+                    imageModalOverlay.classList.remove('hidden'); // Show the modal
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            });
 
-        // Close modal if user clicks outside the image (on the overlay)
-        if (imageModalOverlay) {
+            closeImageModalBtn.addEventListener('click', () => {
+                imageModalOverlay.classList.remove('active'); // Remove active class for transition
+                // Wait for transition to complete before hiding fully
+                setTimeout(() => {
+                    imageModalOverlay.classList.add('hidden');
+                    document.body.style.overflow = ''; // Restore scrolling
+                }, 300); // Match transition duration
+            });
+
+            // Close modal when clicking outside the image
             imageModalOverlay.addEventListener('click', (e) => {
-                if (e.target === imageModalOverlay) { // Only close if clicking the overlay itself, not the image or button
-                    closeImageModal();
+                if (e.target === imageModalOverlay) {
+                    imageModalOverlay.classList.remove('active');
+                    setTimeout(() => {
+                        imageModalOverlay.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    }, 300);
                 }
             });
-        }
 
-        // Close modal if user presses the Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !imageModalOverlay.classList.contains('hidden')) {
-                closeImageModal();
+            // Download Image functionality
+            downloadImageBtn.addEventListener('click', () => {
+                const imageUrl = modalImage.src;
+                // Create a temporary anchor element
+                const a = document.createElement('a');
+                a.href = imageUrl;
+                // Extract filename from URL, or use a default
+                const filename = imageUrl.substring(imageUrl.lastIndexOf('/') + 1) || 'downloaded_image.jpg';
+                a.download = filename; // Set the download attribute
+                document.body.appendChild(a); // Append to body
+                a.click(); // Programmatically click the link to trigger download
+                document.body.removeChild(a); // Remove the link
+            });
+
+            // New: Pinterest Search Modal functionality
+            if (headerSearchBtn) {
+                headerSearchBtn.addEventListener('click', () => {
+                    searchModalOverlay.classList.add('active');
+                    searchModalOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                    pinterestSearchInput.focus(); // Focus on the input field
+                });
+            }
+
+            if (closeSearchModalBtn) {
+                closeSearchModalBtn.addEventListener('click', () => {
+                    searchModalOverlay.classList.remove('active');
+                    setTimeout(() => {
+                        searchModalOverlay.classList.add('hidden');
+                        document.body.style.overflow = ''; // Restore scrolling
+                    }, 300);
+                });
+            }
+
+            // Close search modal when clicking outside the modal content
+            if (searchModalOverlay) {
+                searchModalOverlay.addEventListener('click', (e) => {
+                    if (e.target === searchModalOverlay) {
+                        searchModalOverlay.classList.remove('active');
+                        setTimeout(() => {
+                            searchModalOverlay.classList.add('hidden');
+                            document.body.style.overflow = '';
+                        }, 300);
+                    }
+                });
+            }
+
+            // Handle Pinterest search
+            if (pinterestSearchBtn) {
+                pinterestSearchBtn.addEventListener('click', () => {
+                    const query = pinterestSearchInput.value.trim();
+                    if (query) {
+                        const pinterestUrl = `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(query)}`;
+                        window.open(pinterestUrl, '_blank'); // Open in new tab
+                        // Optionally close the modal after search
+                        searchModalOverlay.classList.remove('active');
+                        setTimeout(() => {
+                            searchModalOverlay.classList.add('hidden');
+                            document.body.style.overflow = '';
+                            pinterestSearchInput.value = ''; // Clear input
+                        }, 300);
+                    }
+                });
+            }
+
+            // Allow pressing Enter key to search in the Pinterest search modal
+            if (pinterestSearchInput) {
+                pinterestSearchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        pinterestSearchBtn.click(); // Simulate click on search button
+                    }
+                });
             }
         });
     </script>
